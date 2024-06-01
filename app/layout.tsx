@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import { AuthContextProvider } from "./_components/contexts/authProvider";
+import { ThemeProvider } from "./_components/contexts/themeProvider";
+import { MainNav } from "./_components/MainNav";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -15,8 +18,28 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={inter.className}>{children}</body>
-    </html>
+    <>
+      <html lang="en">
+        <body className={inter.className}>
+          <AuthContextProvider>
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="system"
+              // enableSystem
+              // disableTransitionOnChange
+            >
+              <header className="flex items-center w-full z-50 px-6 h-16 backdrop-blur backdrop-saturate-200">
+                {/* TODO */}
+                {/* <a href="#id_??" tabIndex={0}>
+                  Skip to content
+                </a> */}
+                <MainNav />
+              </header>
+              {children}
+            </ThemeProvider>
+          </AuthContextProvider>
+        </body>
+      </html>
+    </>
   );
 }
