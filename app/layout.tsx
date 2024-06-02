@@ -3,7 +3,8 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { AuthContextProvider } from "./_components/contexts/authProvider";
 import { ThemeProvider } from "./_components/contexts/themeProvider";
-import { MainNav } from "./_components/MainNav";
+import { Navbar } from "./_components/Navbar";
+import { cn } from "@/lib/utils";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,7 +21,12 @@ export default function RootLayout({
   return (
     <>
       <html lang="en">
-        <body className={inter.className}>
+        <body
+          className={cn(
+            "min-h-screen bg-background font-sans antialiased",
+            inter.className
+          )}
+        >
           <AuthContextProvider>
             <ThemeProvider
               attribute="class"
@@ -28,13 +34,8 @@ export default function RootLayout({
               // enableSystem
               // disableTransitionOnChange
             >
-              <header className="flex items-center w-full z-50 px-6 h-16 backdrop-blur backdrop-saturate-200">
-                {/* TODO */}
-                {/* <a href="#id_??" tabIndex={0}>
-                  Skip to content
-                </a> */}
-                <MainNav />
-              </header>
+              <Navbar />
+
               {children}
             </ThemeProvider>
           </AuthContextProvider>
