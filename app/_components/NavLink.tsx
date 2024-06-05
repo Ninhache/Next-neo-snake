@@ -19,8 +19,10 @@ export default function NavbarLink({
     <Link
       href={href}
       className={cn(
-        "transition-colors hover:text-foreground/80",
-        currentPath === href ? "text-foreground" : "text-foreground/60"
+        "transition-colors ",
+        currentPath === href
+          ? "text-foreground"
+          : "text-foreground/60 hover:text-foreground/80"
       )}
     >
       {children}
