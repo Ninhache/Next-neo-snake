@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { AuthContextProvider } from "./_components/contexts/authProvider";
 import { ThemeProvider } from "./_components/contexts/themeProvider";
 import { Navbar } from "./_components/Navbar";
 import { cn } from "@/lib/utils";
@@ -24,21 +23,19 @@ export default function RootLayout({
         <body
           className={cn(
             "min-h-screen bg-background font-sans antialiased",
-            inter.className
+            inter.className,
           )}
         >
-          <AuthContextProvider>
-            <ThemeProvider
-              attribute="class"
-              defaultTheme="system"
-              // enableSystem
-              // disableTransitionOnChange
-            >
-              <Navbar />
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            // enableSystem
+            // disableTransitionOnChange
+          >
+            <Navbar />
 
-              {children}
-            </ThemeProvider>
-          </AuthContextProvider>
+            {children}
+          </ThemeProvider>
         </body>
       </html>
     </>
