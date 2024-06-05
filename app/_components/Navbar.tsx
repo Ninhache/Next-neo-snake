@@ -57,8 +57,10 @@ export function MobileNav() {
       <SheetContent side="left" className="pr-0">
         <ScrollArea className="my-4 h-[calc(100vh-8rem)] pb-10 pl-6">
           <div className="flex flex-col space-y-3">
-            {siteConfig.nav.map((link) => (
-              <MobileLink href={link.href}>{link.title}</MobileLink>
+            {siteConfig.nav.map((link, index) => (
+              <MobileLink href={link.href} key={index}>
+                {link.title}
+              </MobileLink>
             ))}
           </div>
         </ScrollArea>
@@ -106,8 +108,10 @@ export function MainNav({
         className={cn("flex items-center gap-4 text-sm lg:gap-6", className)}
         {...props}
       >
-        {siteConfig.nav.map((link) => (
-          <NavbarLink href={link.href}>{link.title}</NavbarLink>
+        {siteConfig.nav.map((link, index) => (
+          <NavbarLink href={link.href} key={index}>
+            {link.title}
+          </NavbarLink>
         ))}
       </nav>
     </div>
