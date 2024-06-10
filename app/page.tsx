@@ -61,8 +61,9 @@ export default async function Home() {
                     src={`${article.image}`}
                     alt={`${article.title}`}
                     quality={50}
-                    layout="fill"
-                    objectFit="cover"
+                    width={600}
+                    height={150}
+                    sizes="(max-width: 768px) 100vw, 33vw"
                     className="transform transition-transform group-hover:scale-110"
                   />
                 </div>
@@ -84,7 +85,7 @@ export default async function Home() {
                   <div className="z-40 mx-16 my-2 h-1 border-b border-primary/10"></div>
                   <div className="flex items-center gap-2 rounded-md bg-opacity-60 p-2">
                     <Avatar>
-                      <AvatarImage src={article.authorImage} />
+                      <AvatarImage src={`${article.authorImage}`} />
                       <AvatarFallback>CT</AvatarFallback>
                     </Avatar>
                     <div>

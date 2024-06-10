@@ -4,6 +4,7 @@ import {
   PageHeaderHeading,
 } from "@/app/_components/PageHeader";
 import { MDX } from "@/app/_components/mdx/mdx";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -18,9 +19,9 @@ import {
   getSpecificArticle,
 } from "@/lib/api/articles";
 import { transformTitleToPath } from "@/lib/article";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import ArticleNavigation from "./articleNavigation";
 import { parseDateTime } from "@/lib/time";
+import Image from "next/image";
+import ArticleNavigation from "./articleNavigation";
 
 export const revalidate = 3600;
 
@@ -57,18 +58,28 @@ export default async function Page({ params }: { params: { path: string } }) {
         </Breadcrumb>
       </div>
 
-      <PageHeader>
-        <PageHeaderHeading>{article.title}</PageHeaderHeading>
-        <PageHeaderDescription className="h-20">
-          {article.abstract}
-        </PageHeaderDescription>
+      <div className="relative mt-8 overflow-hidden">
+        <Image
+          src={article.image}
+          width={1920}
+          height={1080}
+          quality={50}
+          sizes="100vw"
+          alt="nul"
+          className="absolute z-0 rounded-t-lg opacity-10"
+        />
+        <PageHeader>
+          <PageHeaderHeading>{article.title}</PageHeaderHeading>
+          <PageHeaderDescription className="h-20">
+            {article.abstract}
+          </PageHeaderDescription>
+        </PageHeader>
+      </div>
 
-        <span className="flex items-center gap-2 text-gray-500">
+      <div className="my-4 flex flex-col gap-4">
+        <span className="flex items-center justify-center gap-2 text-gray-500">
           <Avatar>
-            <AvatarImage
-              src={article.authorImage}
-              className="scale-75 opacity-70"
-            />
+            <AvatarImage src={`${article.authorImage}`} />
             <AvatarFallback>CT</AvatarFallback>
           </Avatar>
           By {article.authorName} · {parseDateTime(article.date, "en-US")} ·{" "}
@@ -79,7 +90,7 @@ export default async function Page({ params }: { params: { path: string } }) {
           previousArticle={previousArticle}
           nextArticle={nextArticle}
         />
-      </PageHeader>
+      </div>
 
       <MDX code={article.content} />
     </section>
