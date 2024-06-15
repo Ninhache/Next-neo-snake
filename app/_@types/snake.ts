@@ -1,17 +1,10 @@
-type Direction = "Up" | "Down" | "Left" | "Right";
-function isDirection(value: any): value is Direction {
-  return ["Up", "Down", "Left", "Right"].includes(value);
-}
+import { getLogger } from "@/lib/logger";
+import { isNotNullOrUndefined } from "./NullableType";
+import { Coordinates, X, Y } from "./coordinates";
+import { Direction } from "./direction";
+import { Food } from "./food";
 
-type X = number & { __name?: "x" };
-type Y = number & { __name?: "y" };
-
-type Coordinates = {
-  x: X;
-  y: Y;
-};
-
-class SnakeSegment {
+export class SnakeSegment {
   coordinates: Coordinates;
 
   constructor(start: Coordinates) {
@@ -33,14 +26,45 @@ class SnakeSegment {
   set y(y: Y) {
     this.coordinates.y = y;
   }
+
+  updatePosition(x: X, y: Y) {
+    this.x = x;
+    this.y = y;
+  }
 }
 
-class Snake {
+interface SnakeOptions {
+  start: Coordinates;
+  length: number;
+  direction?: Direction;
+}
+
+export class Snake {
   head: SnakeSegment;
   body: SnakeSegment[];
+  direction: Direction;
 
-  constructor(start: Coordinates) {
+  constructor({ start, length, direction = "Right" }: SnakeOptions) {
     this.head = new SnakeSegment(start);
-    this.body = [];
+    this.body = new Array(length).map((_) => new SnakeSegment(start));
+    this.direction = direction;
+  }
+
+  public eat(food: Food) {
+    food.applyEffects(this);
+  }
+
+  public grow(value: number) {
+    const lastIndex = this.body.length - 1;
+    const lastPos = this.body.at(lastIndex)?.coordinates;
+
+    if (isNotNullOrUndefined(lastPos)) {
+      for (let i = 0; i < value; i++) {
+        this.body.push(new SnakeSegment(lastPos));
+      }
+    } else {
+      getLogger(this.constructor.name).fatal(`LastPos is ${lastPos}`);
+      throw new Error(`LastPos is ${lastPos}`);
+    }
   }
 }
