@@ -27,6 +27,10 @@ export const siteConfig = {
       title: "Faq",
       href: "/faq",
     },
+    {
+      title: "Sandbox",
+      href: "/sandbox",
+    },
   ],
 };
 
